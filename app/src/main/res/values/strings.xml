@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">My Notes</string>
+    <string name="app_name">NotesApp</string>
+    <string name="firstName">Первое название</string>
+    <string name="firstDescription">Первое описание</string>
+    <string name="firstDate">01.01.1001</string>
+    <string name="secondName">Второе название</string>
+    <string name="secondDescription">Второе описание</string>
+    <string name="secondtDate">02.02.2002</string>
+    <string name="thirdtName">Третье название</string>
+    <string name="thirdDescription">Третье описание</string>
+    <string name="thirdtDate">03.03.3003</string>
+    <string name="notes">Notes</string>
 </resources>
