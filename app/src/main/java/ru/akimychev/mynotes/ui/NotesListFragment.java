@@ -1,7 +1,6 @@
 package ru.akimychev.mynotes.ui;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import java.util.List;
@@ -49,14 +49,23 @@ public class NotesListFragment extends Fragment {
             itemView.findViewById(R.id.root).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable(SELECTED_NOTE, note);
-                        getParentFragmentManager()
-                                .setFragmentResult(CLICKED_NOTE, bundle);
-                    } else {
-                        ru.akimychev.mynotes.ui.NotesDetailsActivity.show(requireContext(), note);
-                    }
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragment_container, NotesDetailsFragment.newInstance(note))
+                            .addToBackStack("NotesDetailsFragment")
+                            .commit();
+                }
+            });
+
+            Toolbar toolbarMenu = view.findViewById(R.id.menu);
+            toolbarMenu.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.fragment_container, new MenuFragment())
+                            .addToBackStack("NotesDetailsFragment")
+                            .commit();
                 }
             });
 
