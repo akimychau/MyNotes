@@ -1,8 +1,10 @@
-package ru.akimychev.mynotes;
+package ru.akimychev.mynotes.ui;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.os.Bundle;
+import ru.akimychev.mynotes.R;
 
 public class MainActivity extends AppCompatActivity {
 
