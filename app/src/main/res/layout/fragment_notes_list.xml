@@ -10,8 +10,18 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/notes" />
+            android:layout_height="match_parent"
+            app:title="@string/notes"
+            app:titleCentered="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                app:navigationIcon="@drawable/ic_baseline_menu_24" />
+        </com.google.android.material.appbar.MaterialToolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
