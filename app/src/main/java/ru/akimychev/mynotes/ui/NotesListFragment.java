@@ -1,6 +1,5 @@
 package ru.akimychev.mynotes.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +23,6 @@ public class NotesListFragment extends Fragment {
     public static final String CLICKED_NOTE = "CLICKED_NOTE";
     public static final String SELECTED_NOTE = "SELECTED_NOTE";
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
 
     @Nullable
     @Override
@@ -38,6 +33,11 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Toolbar toolbar = view.findViewById(R.id.toolbarList);
+        if (requireActivity() instanceof ToolbarHolder) {
+            ((ToolbarHolder) requireActivity()).setToolbar(toolbar);
+        }
 
         List<Notes> notes = InMemoryNotesRepository.getInstance(requireContext()).getAll();
 
@@ -57,17 +57,6 @@ public class NotesListFragment extends Fragment {
                 }
             });
 
-            Toolbar toolbarMenu = view.findViewById(R.id.menu);
-            toolbarMenu.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_container, new MenuFragment())
-                            .addToBackStack("NotesDetailsFragment")
-                            .commit();
-                }
-            });
 
             TextView name = itemView.findViewById(R.id.name);
             name.setText(note.getName());
