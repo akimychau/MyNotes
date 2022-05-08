@@ -3,6 +3,7 @@ package ru.akimychev.mynotes.domain;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import ru.akimychev.mynotes.R;
@@ -28,11 +29,29 @@ public class InMemoryNotesRepository implements NotesRepository {
     public List<Notes> getAll() {
         ArrayList<Notes> result = new ArrayList<>();
         result.add(new Notes(context.getString(R.string.firstName),
-                context.getString(R.string.firstDescription), context.getString(R.string.firstDate)));
+                context.getString(R.string.firstDescription), new Date()));
         result.add(new Notes(context.getString(R.string.secondName),
-                context.getString(R.string.secondDescription), context.getString(R.string.secondtDate)));
+                context.getString(R.string.secondDescription), new Date()));
         result.add(new Notes(context.getString(R.string.thirdtName),
-                context.getString(R.string.thirdDescription), context.getString(R.string.thirdtDate)));
+                context.getString(R.string.thirdDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.firstName),
+                context.getString(R.string.firstDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.secondName),
+                context.getString(R.string.secondDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.thirdtName),
+                context.getString(R.string.thirdDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.firstName),
+                context.getString(R.string.firstDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.secondName),
+                context.getString(R.string.secondDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.thirdtName),
+                context.getString(R.string.thirdDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.firstName),
+                context.getString(R.string.firstDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.secondName),
+                context.getString(R.string.secondDescription), new Date()));
+        result.add(new Notes(context.getString(R.string.thirdtName),
+                context.getString(R.string.thirdDescription), new Date()));
         return result;
     }
 
