@@ -17,4 +17,6 @@
     <string name="drawer_close">Close</string>
     <string name="exit">Exit</string>
     <string name="quit">Quit</string>
+    <string name="string_view">String View</string>
+    <string name="grid_view">Grid View</string>
 </resources>
