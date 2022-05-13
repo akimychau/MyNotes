@@ -41,26 +41,10 @@ public class NotesDetailsFragment extends Fragment {
         name = view.findViewById(R.id.name);
         description = view.findViewById(R.id.description);
 
-        Toolbar toolbarBack = view.findViewById(R.id.toolbar);
-        toolbarBack.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager()
-                        .popBackStack();
-            }
-        });
-
-        Toolbar toolbarMenu = view.findViewById(R.id.menu);
-        toolbarMenu.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.fragment_container, new MenuFragment())
-                        .addToBackStack("NotesDetailsFragment")
-                        .commit();
-            }
-        });
+        Toolbar toolbar = view.findViewById(R.id.toolbarDetails);
+        if (requireActivity() instanceof ToolbarHolder) {
+            ((ToolbarHolder) requireActivity()).setToolbar(toolbar);
+        }
 
         getParentFragmentManager()
                 .setFragmentResultListener(ru.akimychev.mynotes.ui.NotesListFragment.CLICKED_NOTE, getViewLifecycleOwner(), new FragmentResultListener() {
@@ -75,8 +59,6 @@ public class NotesDetailsFragment extends Fragment {
             Notes notes = getArguments().getParcelable(ARG_NOTES);
             showNote(notes);
         }
-
-
     }
 
     private void showNote(Notes notes) {
