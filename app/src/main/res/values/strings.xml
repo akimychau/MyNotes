@@ -15,4 +15,6 @@
     <string name="about">About</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
+    <string name="exit">Exit</string>
+    <string name="quit">Quit</string>
 </resources>

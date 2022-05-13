@@ -1,11 +1,14 @@
 package ru.akimychev.mynotes.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -64,10 +67,30 @@ public class MainActivity extends AppCompatActivity implements ToolbarHolder {
 
                         return true;
 
+                    case R.id.exit:
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Do you want to quit?")
+                                .setMessage("If you press 'Yes' the app will be closed")
+                                .setCancelable(false)
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                        Toast.makeText(MainActivity.this, "NotesApp was closed", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        onResume();
+                                    }
+                                })
+                                .show();
                 }
                 return false;
             }
         });
+
     }
 
     @Override
