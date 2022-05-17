@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentResultListener;
 
 import ru.akimychev.mynotes.R;
-import ru.akimychev.mynotes.domain.Notes;
+import ru.akimychev.mynotes.domain.Note;
 
 public class NotesDetailsFragment extends Fragment {
 
@@ -23,7 +23,7 @@ public class NotesDetailsFragment extends Fragment {
         super(R.layout.fragment_notes_details);
     }
 
-    public static NotesDetailsFragment newInstance(Notes notes) {
+    public static NotesDetailsFragment newInstance(Note notes) {
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_NOTES, notes);
@@ -50,19 +50,19 @@ public class NotesDetailsFragment extends Fragment {
                 .setFragmentResultListener(ru.akimychev.mynotes.ui.NotesListFragment.CLICKED_NOTE, getViewLifecycleOwner(), new FragmentResultListener() {
                     @Override
                     public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
-                        Notes note = result.getParcelable(ru.akimychev.mynotes.ui.NotesListFragment.SELECTED_NOTE);
+                        Note note = result.getParcelable(ru.akimychev.mynotes.ui.NotesListFragment.SELECTED_NOTE);
                         showNote(note);
                     }
                 });
         if (getArguments() != null && getArguments().containsKey(ARG_NOTES)) {
 
-            Notes notes = getArguments().getParcelable(ARG_NOTES);
+            Note notes = getArguments().getParcelable(ARG_NOTES);
             showNote(notes);
         }
     }
 
-    private void showNote(Notes notes) {
-        name.setText(notes.getName());
+    private void showNote(Note notes) {
+        name.setText(notes.getTitle());
         description.setText(notes.getDescription());
     }
 }

@@ -19,4 +19,11 @@
     <string name="quit">Quit</string>
     <string name="string_view">String View</string>
     <string name="grid_view">Grid View</string>
+    <string name="exit_title">Do you want to quit?</string>
+    <string name="exit_message">If you press \'Yes\' the app will be closed</string>
+    <string name="exit_toast">NotesApp was closed</string>
+    <string name="yes">YES</string>
+    <string name="no">No</string>
+    <string name="action_edit">Изменить</string>
+    <string name="action_delete">Удалить</string>
 </resources>

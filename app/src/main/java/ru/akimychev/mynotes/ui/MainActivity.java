@@ -69,20 +69,20 @@ public class MainActivity extends AppCompatActivity implements ToolbarHolder {
 
                     case R.id.exit:
                         new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Do you want to quit?")
-                                .setMessage("If you press 'Yes' the app will be closed")
+                                .setTitle(R.string.exit_title)
+                                .setMessage(R.string.exit_message)
                                 .setCancelable(false)
-                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         finish();
-                                        Toast.makeText(MainActivity.this, "NotesApp was closed", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(MainActivity.this, R.string.exit_toast, Toast.LENGTH_SHORT).show();
                                     }
                                 })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        onResume();
+
                                     }
                                 })
                                 .show();

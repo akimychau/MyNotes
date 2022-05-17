@@ -1,62 +1,119 @@
 package ru.akimychev.mynotes.domain;
 
-import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import ru.akimychev.mynotes.R;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class InMemoryNotesRepository implements NotesRepository {
 
-    private static NotesRepository INSTANCE;
+    private final ArrayList<Note> data = new ArrayList<>();
 
-    private final Context context;
+    private final Executor executor = Executors.newSingleThreadExecutor();
 
-    public InMemoryNotesRepository(Context context) {
-        this.context = context;
-    }
+    private final Handler handler = new Handler(Looper.getMainLooper());
 
-    public static NotesRepository getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new InMemoryNotesRepository(context);
-        }
-        return INSTANCE;
+    public InMemoryNotesRepository() {
+
     }
 
     @Override
-    public List<Notes> getAll() {
-        ArrayList<Notes> result = new ArrayList<>();
-        result.add(new Notes(context.getString(R.string.firstName),
-                context.getString(R.string.firstDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.secondName),
-                context.getString(R.string.secondDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.thirdtName),
-                context.getString(R.string.thirdDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.firstName),
-                context.getString(R.string.firstDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.secondName),
-                context.getString(R.string.secondDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.thirdtName),
-                context.getString(R.string.thirdDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.firstName),
-                context.getString(R.string.firstDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.secondName),
-                context.getString(R.string.secondDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.thirdtName),
-                context.getString(R.string.thirdDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.firstName),
-                context.getString(R.string.firstDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.secondName),
-                context.getString(R.string.secondDescription), new Date()));
-        result.add(new Notes(context.getString(R.string.thirdtName),
-                context.getString(R.string.thirdDescription), new Date()));
-        return result;
+    public void getAll(Callback<List<Note>> callback) {
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(data);
+                    }
+                });
+            }
+        });
     }
 
     @Override
-    public void add(Notes notes) {
+    public void addNote(String title, String description, Callback<Note> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+                Note note = new Note(title, description, new Date());
+
+                data.add(note);
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(note);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void removeNote(Note note, Callback<Void> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                data.remove(note);
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(null);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void updateNote(Note note, String title, String Description, Callback<Note> callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                Note newNote = new Note(title, Description, note.getDate());
+
+                int index = data.indexOf(note);
+
+                data.set(index, newNote);
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(null);
+                    }
+                });
+            }
+        });
     }
 }
