@@ -12,12 +12,12 @@ public class Note implements Parcelable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Note note = (Note) o;
-        return Objects.equals(name, note.name) && Objects.equals(description, note.description) && Objects.equals(date, note.date);
+        return Objects.equals(title, note.title) && Objects.equals(description, note.description) && Objects.equals(date, note.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, date);
+        return Objects.hash(title, description, date);
     }
 
     public static final Creator<Note> CREATOR = new Creator<Note>() {
@@ -31,24 +31,32 @@ public class Note implements Parcelable {
             return new Note[size];
         }
     };
-    private final String name;
+
+    public String getId() {
+        return id;
+    }
+
+    private final String id;
+    private final String title;
     private final String description;
     private final Date date;
 
-    public Note(String name, String description, Date date) {
-        this.name = name;
+    public Note(String id, String name, String description, Date date) {
+        this.id = id;
+        this.title = name;
         this.description = description;
         this.date = date;
     }
 
     protected Note(Parcel in) {
-        name = in.readString();
+        id = in.readString();
+        title = in.readString();
         description = in.readString();
         date = new Date(in.readLong());
     }
 
     public String getTitle() {
-        return name;
+        return title;
     }
 
     public String getDescription() {
@@ -66,7 +74,8 @@ public class Note implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(name);
+        parcel.writeString(id);
+        parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeLong(date.getTime());
 

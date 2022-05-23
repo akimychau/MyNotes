@@ -71,7 +71,7 @@ public class AddNoteFragment extends Fragment {
                 btnDone.setEnabled(false);
 
                 if (finalNoteToEdit != null) {
-                    Dependencies.NOTES_REPOSITORY.updateNote(finalNoteToEdit, title.getText().toString(), description.getText().toString(), new Callback<Note>() {
+                    Dependencies.getNotesRepository().updateNote(finalNoteToEdit, title.getText().toString(), description.getText().toString(), new Callback<Note>() {
                         @Override
                         public void onSuccess(Note data) {
 
@@ -93,7 +93,7 @@ public class AddNoteFragment extends Fragment {
 
                 } else {
 
-                    Dependencies.NOTES_REPOSITORY.addNote(title.getText().toString(), description.getText().toString(), new Callback<Note>() {
+                    Dependencies.getNotesRepository().addNote(title.getText().toString(), description.getText().toString(), new Callback<Note>() {
                         @Override
                         public void onSuccess(Note data) {
 

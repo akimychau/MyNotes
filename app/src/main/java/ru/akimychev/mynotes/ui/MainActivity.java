@@ -12,7 +12,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentResultListener;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.material.navigation.NavigationView;
 
 import ru.akimychev.mynotes.R;
@@ -25,6 +27,22 @@ public class MainActivity extends AppCompatActivity implements ToolbarHolder {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        getSupportFragmentManager()
+                .setFragmentResultListener(AuthFragment.KEY_RESULT_AUTHORIZED, this, new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                       showNotes();
+                    }
+                });
+
+        if (savedInstanceState == null){
+            if (isAuthorized()){
+                showNotes();
+            } else {
+                showAuth();
+            }
+        }
+
         drawerLayout = findViewById(R.id.drawer);
 
         NavigationView navigationView = findViewById(R.id.navigation);
@@ -35,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements ToolbarHolder {
                 switch (item.getItemId()) {
 
                     case R.id.notes:
-                        getSupportFragmentManager().popBackStack();
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragment_container, new NotesListFragment())
-                                .commit();
+                        if (isAuthorized()){
+                            showNotes();
+                        } else {
+                            showAuth();
+                        }
 
                         drawerLayout.close();
 
@@ -105,4 +123,23 @@ public class MainActivity extends AppCompatActivity implements ToolbarHolder {
         actionBarDrawerToggle.syncState();
     }
 
+    private void showNotes() {
+        getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new NotesListFragment())
+                .commit();
+    }
+
+    private void showAuth() {
+        getSupportFragmentManager().popBackStack();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new AuthFragment())
+                .commit();
+    }
+
+    private boolean isAuthorized() {
+        return GoogleSignIn.getLastSignedInAccount(this) != null;
+    }
 }

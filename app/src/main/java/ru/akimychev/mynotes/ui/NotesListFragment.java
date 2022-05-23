@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -80,11 +79,11 @@ public class NotesListFragment extends Fragment {
             }
         });
 
-
         RecyclerView notesList = view.findViewById(R.id.notes_list);
         notesList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
 
         adapter = new NotesAdapter(this);
+        notesList.setAdapter(adapter);
 
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
             @Override
@@ -104,7 +103,6 @@ public class NotesListFragment extends Fragment {
             }
         });
 
-        notesList.setAdapter(adapter);
 
         getParentFragmentManager()
                 .setFragmentResultListener(AddNoteFragment.ADD_KEY_RESULT, getViewLifecycleOwner(), new FragmentResultListener() {
@@ -133,7 +131,7 @@ public class NotesListFragment extends Fragment {
         progressBar = view.findViewById(R.id.progress);
         progressBar.setVisibility(View.VISIBLE);
 
-        Dependencies.NOTES_REPOSITORY.getAll(new Callback<List<Note>>() {
+        Dependencies.getNotesRepository().getAll(new Callback<List<Note>>() {
             @Override
             public void onSuccess(List<Note> data) {
                 adapter.setData(data);
@@ -176,12 +174,12 @@ public class NotesListFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
-            case(R.id.action_delete):
+        switch (item.getItemId()) {
+            case (R.id.action_delete):
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                Dependencies.NOTES_REPOSITORY.removeNote(selectedNote, new Callback<Void>() {
+                Dependencies.getNotesRepository().removeNote(selectedNote, new Callback<Void>() {
                     @Override
                     public void onSuccess(Void data) {
                         adapter.removeNote(selectedNote);
@@ -197,7 +195,7 @@ public class NotesListFragment extends Fragment {
                 });
                 return true;
 
-            case(R.id.action_edit):
+            case (R.id.action_edit):
                 getParentFragmentManager()
                         .beginTransaction()
                         .replace(R.id.fragment_container, AddNoteFragment.editInstance(selectedNote))
