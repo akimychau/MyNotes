@@ -42,6 +42,32 @@ public class NotesListFragment extends Fragment {
 
     private ProgressBar progressBar;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        adapter = new NotesAdapter(this);
+
+        Dependencies.NOTES_REPOSITORY.getAll(new Callback<List<Note>>() {
+            @Override
+            public void onSuccess(List<Note> data) {
+                adapter.setData(data);
+
+                adapter.notifyDataSetChanged();
+
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError(Throwable exception) {
+                progressBar.setVisibility(View.GONE);
+
+            }
+        });
+
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -83,8 +109,6 @@ public class NotesListFragment extends Fragment {
 
         RecyclerView notesList = view.findViewById(R.id.notes_list);
         notesList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-
-        adapter = new NotesAdapter(this);
 
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
             @Override
@@ -131,24 +155,7 @@ public class NotesListFragment extends Fragment {
                 });
 
         progressBar = view.findViewById(R.id.progress);
-        progressBar.setVisibility(View.VISIBLE);
-
-        Dependencies.NOTES_REPOSITORY.getAll(new Callback<List<Note>>() {
-            @Override
-            public void onSuccess(List<Note> data) {
-                adapter.setData(data);
-
-                adapter.notifyDataSetChanged();
-
-                progressBar.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onError(Throwable exception) {
-                progressBar.setVisibility(View.GONE);
-
-            }
-        });
+        progressBar.setVisibility(View.GONE);
 
         view.findViewById(R.id.add).setOnClickListener(new View.OnClickListener() {
             @Override
