@@ -19,6 +19,7 @@ public class NotesDetailsFragment extends Fragment {
     private TextView name;
     private TextView description;
 
+
     public NotesDetailsFragment() {
         super(R.layout.fragment_notes_details);
     }

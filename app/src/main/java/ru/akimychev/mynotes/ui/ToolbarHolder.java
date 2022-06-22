@@ -7,3 +7,4 @@ public interface ToolbarHolder {
 
     void setToolbar(Toolbar toolbar);
 }
+

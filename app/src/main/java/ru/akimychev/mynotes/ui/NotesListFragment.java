@@ -46,6 +46,7 @@ public class NotesListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         adapter = new NotesAdapter(this);
 
         Dependencies.NOTES_REPOSITORY.getAll(new Callback<List<Note>>() {

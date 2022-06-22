@@ -20,6 +20,7 @@ import ru.akimychev.mynotes.R;
 public class MainActivity extends AppCompatActivity implements ToolbarHolder {
     private DrawerLayout drawerLayout;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -21,6 +21,7 @@ public class InMemoryNotesRepository implements NotesRepository {
 
     }
 
+
     @Override
     public void getAll(Callback<List<Note>> callback) {
 

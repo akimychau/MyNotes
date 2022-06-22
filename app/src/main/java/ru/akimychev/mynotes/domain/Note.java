@@ -15,6 +15,7 @@ public class Note implements Parcelable {
         return Objects.equals(name, note.name) && Objects.equals(description, note.description) && Objects.equals(date, note.date);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(name, description, date);

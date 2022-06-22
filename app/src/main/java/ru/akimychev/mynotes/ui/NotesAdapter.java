@@ -25,6 +25,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     private final List<Note> data = new ArrayList<>();
     private OnNoteClicked noteClicked;
 
+
     private Fragment fragment;
 
     public NotesAdapter(Fragment fragment) {

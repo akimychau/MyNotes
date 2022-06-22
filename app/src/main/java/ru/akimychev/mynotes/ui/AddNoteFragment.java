@@ -27,6 +27,7 @@ public class AddNoteFragment extends Fragment {
         return new AddNoteFragment();
     }
 
+
     public static AddNoteFragment editInstance(Note note) {
 
         Bundle args = new Bundle();
