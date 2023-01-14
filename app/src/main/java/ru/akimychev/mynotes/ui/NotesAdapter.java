@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -15,13 +17,20 @@ import java.util.List;
 import java.util.Locale;
 
 import ru.akimychev.mynotes.R;
-import ru.akimychev.mynotes.domain.Notes;
+import ru.akimychev.mynotes.domain.Note;
 
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm", Locale.getDefault());
-    private final List<Notes> data = new ArrayList<>();
+    private final List<Note> data = new ArrayList<>();
     private OnNoteClicked noteClicked;
+
+
+    private Fragment fragment;
+
+    public NotesAdapter(Fragment fragment) {
+        this.fragment = fragment;
+    }
 
     public OnNoteClicked getNoteClicked() {
         return noteClicked;
@@ -31,7 +40,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         this.noteClicked = noteClicked;
     }
 
-    public void setData(Collection<Notes> notes) {
+    public void setData(Collection<Note> notes) {
         data.addAll(notes);
     }
 
@@ -46,9 +55,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
-        Notes note = data.get(position);
+        Note note = data.get(position);
 
-        holder.name.setText(note.getName());
+        holder.name.setText(note.getTitle());
         holder.description.setText(note.getDescription());
         holder.date.setText(simpleDateFormat.format(note.getDate()));
     }
@@ -58,8 +67,23 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return data.size();
     }
 
+    public int addNote(Note note) {
+        data.add(note);
+        return data.size() - 1;
+    }
+
+    public void removeNote(Note selectedNote) {
+        data.remove(selectedNote);
+    }
+
+    public void replaceNote(Note note, int selectedPosition) {
+        data.set(selectedPosition, note);
+    }
+
     interface OnNoteClicked {
-        void onNoteClicked(Notes notes);
+        void onNoteClicked(Note notes);
+
+        void onNoteLongClicked(Note note, int position);
     }
 
     class NotesViewHolder extends RecyclerView.ViewHolder {
@@ -76,13 +100,30 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
 
-            itemView.findViewById(R.id.root).setOnClickListener(new View.OnClickListener() {
+            CardView cardView = itemView.findViewById(R.id.card_view);
+
+            fragment.registerForContextMenu(cardView);
+
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if (noteClicked != null) {
                         int clickedPosition = getAdapterPosition();
                         noteClicked.onNoteClicked(data.get(clickedPosition));
                     }
+                }
+            });
+
+            cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    cardView.showContextMenu();
+
+                    if (noteClicked != null) {
+                        int clickedPosition = getAdapterPosition();
+                        noteClicked.onNoteLongClicked(data.get(clickedPosition), clickedPosition);
+                    }
+                    return true;
                 }
             });
         }
